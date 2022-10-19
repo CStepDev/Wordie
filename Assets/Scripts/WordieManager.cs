@@ -41,6 +41,7 @@ public class WordieManager : MonoBehaviour
     void Start()
     {
         startButton.onClick.AddListener(StartGame);
+        startButton.name = "Start";
         returnButton.onClick.AddListener(StartMenu);
     }
 }

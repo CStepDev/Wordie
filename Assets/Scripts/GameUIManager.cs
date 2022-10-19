@@ -44,7 +44,7 @@ public class GameUIManager : MonoBehaviour
     // Done to avoid any extra state based logic.
     private void OnEnable()
     {
-        ResetWordUI();
+        //ResetWordUI();
         menuButton.SetActive(false);
     }
 }

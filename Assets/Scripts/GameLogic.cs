@@ -124,6 +124,7 @@ public class GameLogic : MonoBehaviour
     {
         words = this.gameObject.GetComponent<TxtLoader>().WordsList();
         ResetGameVariables();
+        uiManager.ResetWordUI();
         SetFirstHint();
     }
 
