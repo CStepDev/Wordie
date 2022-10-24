@@ -53,31 +53,35 @@ public class GameLogic : MonoBehaviour
         // letters being highlighted incorrectly
         for (int i = 0; i < inputtedWord.Length; i++)
         {
-            if ((currentWord.Contains(inputtedWord[i])) && (checkedChar[i] == false))
+            if (currentWord.Contains(inputtedWord[i]))
             {
                 for (int j = 0; j < inputtedWord.Length; j++)
                 {
-                    if (inputtedWord[i] == currentWord[j])
+                    if ((inputtedWord[i] == currentWord[j]) && (checkedChar[j] == false) && (i != j))
                     {
                         uiManager.SetSpecificColour(currentAttempt, i, Color.yellow);
                         checkedChar[j] = true;
                     }
+                    else if ((inputtedWord[i] == currentWord[j]) && (checkedChar[j] == true) && (i != j))
+                    {
+                        uiManager.SetSpecificColour(currentAttempt, i, Color.gray);
+                    }
                 }
             }
-            //else
-            //{
-            //    uiManager.SetSpecificColour(currentAttempt, i, Color.gray);
-            //}
-        }
-
-        // Lastly, set any letter positions which haven't been flagged as checked, as they're incorrect guesses
-        for (int i = 0; i < inputtedWord.Length; i++)
-        {
-            if (checkedChar[i] == false)
+            else
             {
                 uiManager.SetSpecificColour(currentAttempt, i, Color.gray);
             }
         }
+
+        // Lastly, set any letter positions which haven't been flagged as checked, as they're incorrect guesses
+        //for (int i = 0; i < inputtedWord.Length; i++)
+        //{
+        //    if (checkedChar[i] == false)
+        //    {
+        //        uiManager.SetSpecificColour(currentAttempt, i, Color.gray);
+        //    }
+        //}
 
         //foreach (char c in inputtedWord)
         //{
