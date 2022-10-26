@@ -21,6 +21,14 @@ public class GameUIManager : MonoBehaviour
         wordsUI[row].SetLetterBackground(column, newColour);
     }
 
+    public void SetAllColours(int row, List<Color> letterColors)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            SetSpecificColour(row, i, letterColors[i]);
+        }
+    }
+
     // Sets winningWordUI to the current game's word
     public void SetWinningWord(string word)
     {

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class GameLogic : MonoBehaviour
@@ -21,85 +23,40 @@ public class GameLogic : MonoBehaviour
     // Updates the UI based on accuracy of player guesses
     private void VerifyGuessedCharacters()
     {
-        //int index = 0;
-        bool[] checkedChar = new bool[5]; // Verifies if a char has been checked.
+        List<Color> hintColors = new List<Color>(); // Needs moving
 
-        // Init the checking array
-        for (int i = 0; i < checkedChar.Length; i++)
+        // Init the color list
+        for (int i = 0; i < 5; i++)
         {
-            checkedChar[i] = false;
+            hintColors.Add(Color.gray);
         }
 
-        // First, check if any letters match and updated checkedChar
+        // First, check if any letters match and make corresponding color green
         for (int i = 0; i < inputtedWord.Length; i++)
         {
             if (inputtedWord[i] == currentWord[i])
             {
-                uiManager.SetSpecificColour(currentAttempt, i, Color.green);
-                checkedChar[i] = true;
+                hintColors[i] = Color.green;
             }
         }
 
-        //foreach (char c in inputtedWord)
-        //{
-        //    if (currentWord[index] == c)
-        //    {
-        //        uiManager.SetSpecificColour(currentAttempt, index, Color.green);
-        //        checkedChar[index] = true;
-        //    }
-        //}
-
-        // Second, check for letters inside the word, updating checkedChar to avoid duplicate
-        // letters being highlighted incorrectly
+        // Second, check for letters inside the word in the wrong position, verifying
+        // they haven't already been confirmed as correct before setting to yellow
         for (int i = 0; i < inputtedWord.Length; i++)
         {
             if (currentWord.Contains(inputtedWord[i]))
             {
                 for (int j = 0; j < inputtedWord.Length; j++)
                 {
-                    if ((inputtedWord[i] == currentWord[j]) && (checkedChar[j] == false) && (i != j))
+                    if ((inputtedWord[i] == currentWord[j]) && !(hintColors[j] == Color.green))
                     {
-                        uiManager.SetSpecificColour(currentAttempt, i, Color.yellow);
-                        checkedChar[j] = true;
-                    }
-                    else if ((inputtedWord[i] == currentWord[j]) && (checkedChar[j] == true) && (i != j))
-                    {
-                        uiManager.SetSpecificColour(currentAttempt, i, Color.gray);
+                        hintColors[i] = Color.yellow;
                     }
                 }
             }
-            else
-            {
-                uiManager.SetSpecificColour(currentAttempt, i, Color.gray);
-            }
         }
 
-        // Lastly, set any letter positions which haven't been flagged as checked, as they're incorrect guesses
-        //for (int i = 0; i < inputtedWord.Length; i++)
-        //{
-        //    if (checkedChar[i] == false)
-        //    {
-        //        uiManager.SetSpecificColour(currentAttempt, i, Color.gray);
-        //    }
-        //}
-
-        //foreach (char c in inputtedWord)
-        //{
-        //    if ((currentWord.Contains(c)) && !(currentWord[index] == c))
-        //    {
-        //        uiManager.SetSpecificColour(currentAttempt, index, Color.yellow);
-        //    }
-        //    else if (currentWord[index] == c)
-        //    {
-        //        uiManager.SetSpecificColour(currentAttempt, index, Color.green);
-        //    }
-        //    else
-        //    {
-        //        uiManager.SetSpecificColour(currentAttempt, index, Color.gray);
-        //    }
-
-        //    index++;
-        //}
+        uiManager.SetAllColours(currentAttempt, hintColors); // This'll be reformatted
     }
 
     // Check formed input string
