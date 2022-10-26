@@ -48,8 +48,9 @@ public class GameLogic : MonoBehaviour
             {
                 for (int j = 0; j < inputtedWord.Length; j++)
                 {
-                    if ((inputtedWord[i] == currentWord[j]) && !(hintColors[j] == Color.green))
+                    if ((inputtedWord[i] == currentWord[j]) && (!(hintColors[i] == Color.green) && !(hintColors[j] == Color.green)))
                     {
+                        Debug.Log(inputtedWord[i].ToString() + " has been set to yellow.");
                         hintColors[i] = Color.yellow;
                     }
                 }
@@ -67,6 +68,7 @@ public class GameLogic : MonoBehaviour
         if (inputtedWord == currentWord)
         {
             menuButton.SetActive(true);
+            uiManager.SetWinningWord(currentWord);
         }
         else if (!words.Contains(inputtedWord))
         {
